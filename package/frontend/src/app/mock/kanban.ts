@@ -1,6 +1,6 @@
 import { KanbanColumn } from '../interface/kanban.interface';
 
-export const mockKanban: KanbanColumn[] = [
+export const MOCK_KAN_BAN: KanbanColumn[] = [
   {
     id: 'todo',
     name: 'To Do',

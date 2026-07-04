@@ -13,7 +13,7 @@ import {
   TicketFormModalComponent,
   TicketFormValue,
 } from './ticket-form-modal/ticket-form-modal.component';
-import { mockKanban } from '../../mock/kanban';
+import { MOCK_KAN_BAN } from '../../mock/kanban';
 import { KanbanColumn, KanbanTicket } from '../../interface/kanban.interface';
 
 @Component({
@@ -26,7 +26,7 @@ import { KanbanColumn, KanbanTicket } from '../../interface/kanban.interface';
 export class KanbanComponent {
   constructor(private dialog: MatDialog) {}
 
-  columns: KanbanColumn[] = mockKanban;
+  columns: KanbanColumn[] = MOCK_KAN_BAN;
 
   onTicketDropped(event: CdkDragDrop<KanbanTicket[]>) {
     if (event.previousContainer === event.container) {

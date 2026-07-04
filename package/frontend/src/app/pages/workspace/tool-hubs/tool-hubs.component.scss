@@ -16,6 +16,22 @@
   }
 }
 
+.tool-btn-wrapper {
+  @apply relative;
+}
+
+.sticky-note-color-picker {
+  @apply absolute top-full left-1/2 -translate-x-1/2 mt-sm flex items-center gap-xs bg-surface-container-high border border-outline-variant p-xs rounded-full shadow-2xl z-50;
+}
+
+.sticky-note-color-option {
+  @apply w-6 h-6 rounded-full border border-outline-variant/50 transition-transform;
+
+  &:hover {
+    transform: scale(1.15);
+  }
+}
+
 .tool-divider {
   @apply w-[1px] h-6 bg-outline-variant mx-1;
 }

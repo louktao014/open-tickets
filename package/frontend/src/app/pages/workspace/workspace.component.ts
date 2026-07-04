@@ -5,16 +5,27 @@ import { UploadedImageComponent } from './uploaded-image/uploaded-image.componen
 import { CodeSnippetComponent } from './code-snippet/code-snippet.component';
 import { TextComponent } from './text/text.component';
 import { LinkComponent } from './link/link.component';
-import { ToolHubsComponent } from './tool-hubs/tool-hubs.component';
+import { ToolHubsComponent, InsertToolEvent } from './tool-hubs/tool-hubs.component';
 import { EnumWorkspaceItemType } from '../../enum/workspace.enum';
 import { Whiteboard, WorkspaceCanvasItem } from '../../interface/workspace.interface';
-import { mockWorkspaces } from '../../mock/work-space';
+import { MOCK_WORKSPACES } from '../../mock/work-space';
 
 const MIN_ZOOM = 0.25;
 const MAX_ZOOM = 2;
 const ZOOM_STEP = 0.1;
 const MINIMAP_WORLD_WIDTH = 2000;
 const MINIMAP_WORLD_HEIGHT = 1400;
+
+const STICKY_NOTE_SIZE = 192;
+const DEFAULT_TEXT_FONT_SIZE = 18;
+const DEFAULT_TEXT_COLOR = '#dfe2eb';
+const DEFAULT_TEXT_WIDTH = 200;
+const DEFAULT_TEXT_HEIGHT = 60;
+const DEFAULT_LINK_WIDTH = 256;
+const DEFAULT_LINK_HEIGHT = 64;
+const DEFAULT_CODE_SNIPPET_WIDTH = 320;
+const DEFAULT_CODE_SNIPPET_HEIGHT = 120;
+const DEFAULT_CODE_SNIPPET_FILE_NAME = 'untitled.txt';
 
 @Component({
   selector: 'app-workspace',
@@ -29,7 +40,7 @@ const MINIMAP_WORLD_HEIGHT = 1400;
     ToolHubsComponent,
   ],
   templateUrl: './workspace.component.html',
-  styleUrl: './workspace.component.scss',
+  styleUrls: ['./workspace.component.scss'],
 })
 export class WorkspaceComponent {
   @ViewChild('viewport', { static: true }) viewportRef!: ElementRef<HTMLDivElement>;
@@ -40,7 +51,7 @@ export class WorkspaceComponent {
   panY = 0;
   EnumWorkspaceItemType = EnumWorkspaceItemType;
 
-  whiteboards: Whiteboard[] = mockWorkspaces;
+  whiteboards: Whiteboard[] = MOCK_WORKSPACES;
 
   selectedWhiteboardId = this.whiteboards[0].id;
 
@@ -106,6 +117,16 @@ export class WorkspaceComponent {
     this.activeItem = null;
     this.isPanning = false;
     this.resetView();
+  }
+
+  onInsertItem(event: InsertToolEvent) {
+    const newItem = this.createItemForInsert(event);
+    if (!newItem) {
+      return;
+    }
+
+    newItem.zIndex = ++this.zIndexCounter;
+    this.activeWhiteboard.items.push(newItem);
   }
 
   minimapItemStyle(item: WorkspaceCanvasItem) {
@@ -227,5 +248,71 @@ export class WorkspaceComponent {
       x: (screenX - this.panX) / this.zoom,
       y: (screenY - this.panY) / this.zoom,
     };
+  }
+
+  private viewportCenterCanvasPoint() {
+    const rect = this.viewportRef.nativeElement.getBoundingClientRect();
+    return this.screenToCanvasPoint(rect.left + rect.width / 2, rect.top + rect.height / 2);
+  }
+
+  private createItemForInsert(event: InsertToolEvent): WorkspaceCanvasItem | null {
+    const center = this.viewportCenterCanvasPoint();
+    const id = crypto.randomUUID();
+
+    switch (event.type) {
+      case EnumWorkspaceItemType.StickyNote: {
+        if (!event.color) {
+          return null;
+        }
+        return {
+          id,
+          type: EnumWorkspaceItemType.StickyNote,
+          x: center.x - STICKY_NOTE_SIZE / 2,
+          y: center.y - STICKY_NOTE_SIZE / 2,
+          zIndex: 0,
+          label: '',
+          content: '',
+          bgColor: event.color.bgColor,
+          textColor: event.color.textColor,
+          rotation: 0,
+          icon: '',
+        };
+      }
+      case EnumWorkspaceItemType.Text:
+        return {
+          id,
+          type: EnumWorkspaceItemType.Text,
+          x: center.x - DEFAULT_TEXT_WIDTH / 2,
+          y: center.y - DEFAULT_TEXT_HEIGHT / 2,
+          zIndex: 0,
+          content: '',
+          fontSize: DEFAULT_TEXT_FONT_SIZE,
+          color: DEFAULT_TEXT_COLOR,
+          width: DEFAULT_TEXT_WIDTH,
+          height: DEFAULT_TEXT_HEIGHT,
+        };
+      case EnumWorkspaceItemType.Link:
+        return {
+          id,
+          type: EnumWorkspaceItemType.Link,
+          x: center.x - DEFAULT_LINK_WIDTH / 2,
+          y: center.y - DEFAULT_LINK_HEIGHT / 2,
+          zIndex: 0,
+          title: '',
+          url: '',
+        };
+      case EnumWorkspaceItemType.CodeSnippet:
+        return {
+          id,
+          type: EnumWorkspaceItemType.CodeSnippet,
+          x: center.x - DEFAULT_CODE_SNIPPET_WIDTH / 2,
+          y: center.y - DEFAULT_CODE_SNIPPET_HEIGHT / 2,
+          zIndex: 0,
+          fileName: DEFAULT_CODE_SNIPPET_FILE_NAME,
+          code: '',
+        };
+      default:
+        return null;
+    }
   }
 }

@@ -1,7 +1,7 @@
 import { EnumWorkspaceItemType } from '../enum/workspace.enum';
 import { Whiteboard } from '../interface/workspace.interface';
 
-export const mockWorkspaces: Whiteboard[] = [
+export const MOCK_WORKSPACES: Whiteboard[] = [
   {
     id: 'sprint-12',
     name: 'Sprint 12 Board',
