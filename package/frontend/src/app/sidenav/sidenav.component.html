@@ -1,0 +1,41 @@
+<nav class="sidenav">
+  <div class="sidenav-top">
+    <div class="brand">
+      <div class="brand-icon">
+        <span class="material-symbols-outlined text-on-primary-container">account_tree</span>
+      </div>
+      <div>
+        <div class="brand-title">Project Alpha</div>
+        <div class="brand-subtitle">Active Sprint 12</div>
+      </div>
+    </div>
+
+    <div class="nav-links">
+      <ng-container *ngFor="let link of navLinks">
+        <a
+          *ngIf="link.isActive"
+          [routerLink]="link.route"
+          routerLinkActive="active-link"
+          class="nav-link"
+        >
+          <span class="material-symbols-outlined">{{ link.icon }}</span>
+          <span class="nav-label">{{ link.label }}</span>
+        </a>
+      </ng-container>
+    </div>
+  </div>
+
+  <div class="sidenav-bottom">
+    <ng-container *ngFor="let link of bottomNavLinks">
+      <a
+        *ngIf="link.isActive"
+        [routerLink]="link.route"
+        routerLinkActive="active-link"
+        class="nav-link"
+      >
+        <span class="material-symbols-outlined">{{ link.icon }}</span>
+        <span class="nav-label">{{ link.label }}</span>
+      </a>
+    </ng-container>
+  </div>
+</nav>

@@ -1,0 +1,59 @@
+<div class="kanban-board" cdkDropListGroup>
+  <div
+    class="kanban-column"
+    [ngClass]="'kanban-column--' + column.id"
+    *ngFor="let column of columns"
+  >
+    <div class="column-header">
+      <div class="column-header-left">
+        <span class="column-dot"></span>
+        <span class="column-name">{{ column.name }}</span>
+        <span class="column-count">{{ column.count }}</span>
+      </div>
+      <span class="material-symbols-outlined column-menu">more_horiz</span>
+    </div>
+
+    <div
+      class="ticket-list"
+      cdkDropList
+      [cdkDropListData]="column.tickets"
+      (cdkDropListDropped)="onTicketDropped($event)"
+    >
+      <div class="ticket-card" *ngFor="let ticket of column.tickets" cdkDrag>
+        <div class="ticket-card-top">
+          <span class="ticket-id">{{ ticket.id }}</span>
+          <span
+            class="ticket-priority"
+            [ngClass]="'ticket-priority--' + ticket.priority.toLowerCase()"
+            >{{ ticket.priority }}</span
+          >
+        </div>
+
+        <h4 class="ticket-title">{{ ticket.title }}</h4>
+
+        <div class="ticket-alert" *ngIf="ticket.alert">
+          <span class="material-symbols-outlined">error</span>
+          <p>{{ ticket.alert }}</p>
+        </div>
+
+        <div class="ticket-footer">
+          <div class="ticket-meta">
+            <ng-container *ngFor="let item of ticket.meta">
+              <span class="material-symbols-outlined">{{ item.icon }}</span>
+              <span>{{ item.label }}</span>
+            </ng-container>
+          </div>
+          <img
+            class="ticket-assignee"
+            [src]="ticket.assigneeAvatarUrl"
+            [alt]="ticket.assigneeAlt"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button class="kanban-fab" type="button" aria-label="New ticket" (click)="openAddTicketModal()">
+  <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">add</span>
+</button>

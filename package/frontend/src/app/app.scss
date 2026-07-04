@@ -1,0 +1,5 @@
+@reference '../tailwind.css';
+
+.main-content {
+  @apply pt-16 pl-[240px] min-h-screen bg-background;
+}

@@ -1,0 +1,53 @@
+@reference '../../../../tailwind.css';
+
+:host {
+  display: contents;
+}
+
+.text-item-wrapper {
+  @apply relative inline-block box-border p-xs select-none border border-dashed border-outline-variant rounded;
+  cursor: grab;
+
+  &.is-editing {
+    cursor: text;
+  }
+}
+
+.text-item {
+  @apply w-full h-full font-headline-md font-bold bg-transparent border-none outline-none whitespace-pre-wrap select-none;
+  cursor: inherit;
+  resize: none;
+  overflow: auto;
+}
+
+.text-item-wrapper.is-editing .text-item {
+  @apply select-text;
+}
+
+.resize-handle {
+  @apply absolute w-2.5 h-2.5 bg-primary border border-surface rounded-full opacity-0 transition-opacity;
+}
+
+.text-item-wrapper:hover .resize-handle {
+  @apply opacity-100;
+}
+
+.resize-handle--nw {
+  @apply -top-1 -left-1;
+  cursor: nwse-resize;
+}
+
+.resize-handle--ne {
+  @apply -top-1 -right-1;
+  cursor: nesw-resize;
+}
+
+.resize-handle--sw {
+  @apply -bottom-1 -left-1;
+  cursor: nesw-resize;
+}
+
+.resize-handle--se {
+  @apply -bottom-1 -right-1;
+  cursor: nwse-resize;
+}

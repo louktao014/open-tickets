@@ -1,0 +1,20 @@
+version: "3.9"
+
+services:
+  backend:
+    build: ./package/backend
+    container_name: open-ticket-backend
+    ports:
+      - "3000:3000"
+    # env_file:
+    #   - ./backend/.env
+    restart: always
+
+  frontend:
+    build: ./package/frontend
+    container_name: open-ticket-frontend
+    ports:
+      - "4200:80"
+    depends_on:
+      - backend
+    restart: always

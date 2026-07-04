@@ -1,0 +1,28 @@
+<div class="code-snippet">
+  <div class="code-snippet-header">
+    <div class="code-snippet-file">
+      <span class="material-symbols-outlined">terminal</span>
+      <span>{{ item.fileName }}</span>
+    </div>
+    <div class="code-snippet-dots">
+      <div class="dot dot-error"></div>
+      <div class="dot dot-tertiary"></div>
+      <div class="dot dot-secondary"></div>
+    </div>
+  </div>
+  <div class="code-snippet-body">
+    <div class="code-snippet-lines" #lineGutter>
+      <div *ngFor="let lineNumber of getLineNumbers(item.code)">{{ lineNumber }}</div>
+    </div>
+    <textarea
+      #codeInput
+      class="code-snippet-code custom-scrollbar"
+      spellcheck="false"
+      wrap="off"
+      [value]="item.code"
+      (input)="onCodeInput(codeInput.value)"
+      (scroll)="lineGutter.scrollTop = codeInput.scrollTop"
+      (mousedown)="$event.stopPropagation()"
+    ></textarea>
+  </div>
+</div>

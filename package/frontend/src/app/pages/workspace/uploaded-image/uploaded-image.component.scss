@@ -1,0 +1,37 @@
+@reference '../../../../tailwind.css';
+
+:host {
+  display: contents;
+}
+
+.image-card {
+  @apply p-xs bg-surface-container-high border border-outline-variant shadow-2xl rounded-lg cursor-grab select-none;
+}
+
+.image-thumb {
+  @apply bg-surface-container-low rounded overflow-hidden pointer-events-none;
+}
+
+.image-thumb-img {
+  @apply w-full h-full object-cover transition-all duration-300;
+
+  &.image-thumb-img--grayscale {
+    @apply grayscale;
+  }
+}
+
+.image-card:hover .image-thumb-img--grayscale {
+  @apply grayscale-0;
+}
+
+.image-footer {
+  @apply p-sm flex justify-between items-center pointer-events-none;
+}
+
+.image-filename {
+  @apply font-code-md text-xs text-on-surface-variant;
+}
+
+.image-status {
+  @apply text-xs;
+}

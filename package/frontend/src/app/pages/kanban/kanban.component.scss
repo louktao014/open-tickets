@@ -1,0 +1,195 @@
+@reference '../../../tailwind.css';
+
+:host {
+  display: contents;
+}
+
+.kanban-board {
+  @apply flex-1 overflow-x-auto px-xl pb-xl flex gap-gutter;
+}
+
+.kanban-column {
+  @apply flex flex-col gap-md w-[280px] shrink-0;
+}
+
+.column-header {
+  @apply flex items-center justify-between px-xs py-sm border-b border-outline-variant;
+}
+
+.column-header-left {
+  @apply flex items-center gap-sm;
+}
+
+.column-dot {
+  @apply w-2 h-2 rounded-full bg-outline;
+}
+
+.column-name {
+  @apply text-label-caps font-label-caps text-on-surface;
+}
+
+.column-count {
+  @apply text-[10px] bg-surface-container-highest px-sm py-[1px] rounded text-on-surface-variant;
+}
+
+.column-menu {
+  @apply text-on-surface-variant cursor-pointer;
+}
+
+.ticket-list {
+  @apply flex flex-col gap-md overflow-y-auto pr-sm min-h-[40px];
+}
+
+.ticket-card {
+  @apply bg-surface-container border border-outline-variant p-md flex flex-col gap-sm cursor-grab transition-opacity;
+
+  &.cdk-drag-preview {
+    @apply shadow-lg cursor-grabbing;
+  }
+
+  &.cdk-drag-placeholder {
+    @apply opacity-30;
+  }
+
+  &.cdk-drag-animating {
+    transition: transform 200ms cubic-bezier(0, 0, 0.2, 1);
+  }
+}
+
+.ticket-list.cdk-drop-list-dragging .ticket-card:not(.cdk-drag-placeholder) {
+  transition: transform 200ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.ticket-card-top {
+  @apply flex justify-between items-start;
+}
+
+.ticket-id {
+  @apply font-code-md text-code-md text-primary;
+}
+
+.ticket-priority {
+  @apply text-[10px] uppercase font-bold px-sm py-[2px] rounded border;
+
+  &.ticket-priority--low,
+  &.ticket-priority--med {
+    @apply text-on-surface-variant bg-surface-container-highest border-outline-variant;
+  }
+
+  &.ticket-priority--high {
+    @apply text-tertiary-fixed-dim bg-tertiary-container/20 border-tertiary-container/30;
+  }
+
+  &.ticket-priority--urgent {
+    @apply text-error bg-error-container/20 border-error-container/30;
+  }
+}
+
+.ticket-title {
+  @apply text-body-sm font-semibold text-on-surface;
+}
+
+.ticket-alert {
+  @apply mt-sm p-sm bg-error-container/10 border border-error/20 rounded flex items-center gap-xs text-[11px] text-error;
+
+  .material-symbols-outlined {
+    @apply text-[14px];
+  }
+}
+
+.ticket-footer {
+  @apply mt-md flex justify-between items-center;
+}
+
+.ticket-meta {
+  @apply flex items-center gap-xs text-[12px] text-on-surface-variant;
+
+  .material-symbols-outlined {
+    @apply text-[16px];
+  }
+}
+
+.ticket-assignee {
+  @apply w-6 h-6 rounded-full border border-outline-variant;
+}
+
+.kanban-fab {
+  @apply fixed bottom-xl right-xl w-14 h-14 bg-primary text-on-primary rounded-full shadow-lg flex items-center justify-center hover:scale-105 active:scale-95 transition-all z-50;
+}
+
+/* Column accents */
+.kanban-column--in-progress {
+  .column-header {
+    @apply border-primary;
+  }
+  .column-dot {
+    @apply bg-primary shadow-[0_0_8px_#58a6ff];
+  }
+}
+
+.kanban-column--ready-to-test {
+  .column-header {
+    @apply border-secondary;
+  }
+  .column-dot {
+    @apply bg-secondary shadow-[0_0_8px_#7bdb80];
+  }
+}
+
+.kanban-column--test-in-progress {
+  .column-header {
+    @apply border-tertiary;
+  }
+  .column-dot {
+    @apply bg-tertiary shadow-[0_0_8px_#fabc45];
+  }
+  .ticket-card {
+    @apply border-l-4 border-l-tertiary;
+  }
+}
+
+.kanban-column--test-fail {
+  .column-header {
+    @apply border-error;
+  }
+  .column-dot {
+    @apply bg-error shadow-[0_0_8px_#ffb4ab];
+  }
+  .column-count {
+    @apply bg-error-container/20 text-error border border-error/30;
+  }
+  .ticket-card {
+    @apply border-error/50;
+  }
+  .ticket-id {
+    @apply text-error;
+  }
+}
+
+.kanban-column--done {
+  .column-header {
+    @apply border-secondary-container;
+  }
+  .column-dot {
+    @apply bg-secondary-container;
+  }
+  .ticket-list {
+    @apply opacity-70;
+  }
+  .ticket-card {
+    @apply bg-surface-container-low border-outline-variant/30 line-through decoration-on-surface-variant/50;
+  }
+  .ticket-id,
+  .ticket-title {
+    @apply text-on-surface-variant;
+  }
+  .ticket-priority {
+    @apply text-on-surface-variant/50 border-outline-variant/30;
+  }
+  .ticket-meta {
+    @apply text-on-surface-variant/50;
+  }
+  .ticket-assignee {
+    @apply grayscale opacity-50;
+  }
+}

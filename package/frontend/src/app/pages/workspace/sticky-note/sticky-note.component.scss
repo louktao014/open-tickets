@@ -1,0 +1,36 @@
+@reference '../../../../tailwind.css';
+
+:host {
+  display: contents;
+}
+
+.sticky-note {
+  @apply relative w-48 h-48 p-md rounded-xs font-medium shadow-lg;
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.3),
+    0 2px 4px -1px rgba(0, 0, 0, 0.2);
+  transition:
+    transform 0.1s ease-out,
+    box-shadow 0.1s ease-out;
+  cursor: grab;
+  user-select: none;
+
+  &.is-dragging {
+    cursor: grabbing;
+    box-shadow:
+      0 20px 25px -5px rgba(0, 0, 0, 0.4),
+      0 10px 10px -5px rgba(0, 0, 0, 0.3);
+  }
+}
+
+.sticky-note-label {
+  @apply font-code-md text-xs opacity-50 mb-xs;
+}
+
+.sticky-note-content {
+  @apply font-body-sm leading-tight;
+}
+
+.sticky-note-icon {
+  @apply absolute bottom-2 right-2 opacity-30;
+}

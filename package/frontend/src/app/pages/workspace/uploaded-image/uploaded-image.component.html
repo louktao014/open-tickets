@@ -1,0 +1,16 @@
+<div class="image-card">
+  <div class="image-thumb" [style.width.px]="image.width" [style.height.px]="image.height">
+    <img
+      class="image-thumb-img"
+      [class.image-thumb-img--grayscale]="image.grayscaleHover"
+      [src]="image.imageUrl"
+      [alt]="image.imageAlt"
+    />
+  </div>
+  <div class="image-footer">
+    <span class="image-filename">{{ image.fileName }}</span>
+    <span class="material-symbols-outlined image-status" [ngClass]="image.statusIconClass">{{
+      image.statusIcon
+    }}</span>
+  </div>
+</div>

@@ -1,0 +1,79 @@
+<div class="modal-panel">
+  <div class="modal-header">
+    <h2 class="modal-title">New Ticket</h2>
+    <button type="button" class="modal-close" aria-label="Close" (click)="onCancel()">
+      <span class="material-symbols-outlined">close</span>
+    </button>
+  </div>
+
+  <form class="modal-form" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="modal-fields">
+      <label class="form-field">
+        <span class="form-label">Title</span>
+        <input class="form-input" type="text" formControlName="title" placeholder="Ticket title" />
+      </label>
+
+      <label class="form-field">
+        <span class="form-label">Detail</span>
+        <textarea
+          class="form-input form-textarea"
+          formControlName="detail"
+          rows="3"
+          placeholder="Describe the ticket"
+        ></textarea>
+      </label>
+
+      <div class="form-row">
+        <label class="form-field">
+          <span class="form-label">Priority</span>
+          <select class="form-input" formControlName="priority">
+            <option *ngFor="let priority of priorities" [value]="priority">{{ priority }}</option>
+          </select>
+        </label>
+
+        <label class="form-field">
+          <span class="form-label">Assignee</span>
+          <input
+            class="form-input"
+            type="text"
+            formControlName="assigneeAlt"
+            placeholder="Assignee name"
+          />
+        </label>
+      </div>
+
+      <div class="form-row">
+        <label class="form-field">
+          <span class="form-label">Task Type</span>
+          <select class="form-input" formControlName="taskType">
+            <option *ngFor="let taskType of taskTypes" [value]="taskType">{{ taskType }}</option>
+          </select>
+        </label>
+
+        <label class="form-field">
+          <span class="form-label">Job Type</span>
+          <select class="form-input" formControlName="jobType">
+            <option *ngFor="let jobType of jobTypes" [value]="jobType">{{ jobType }}</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="form-row">
+        <label class="form-field">
+          <span class="form-label">Create Date</span>
+          <input class="form-input" type="date" formControlName="createDate" />
+        </label>
+
+        <label class="form-field">
+          <span class="form-label">Update Date</span>
+          <input class="form-input" type="date" formControlName="updateDate" />
+        </label>
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancel</button>
+      <button type="submit" class="btn btn-primary">Create Ticket</button>
+    </div>
+  </form>
+</div>

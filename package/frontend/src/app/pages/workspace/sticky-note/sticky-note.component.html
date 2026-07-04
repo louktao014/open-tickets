@@ -1,0 +1,13 @@
+<div
+  class="sticky-note"
+  [class.is-dragging]="isDragging"
+  [style.background]="note.bgColor"
+  [style.color]="note.textColor"
+  [style.transform]="noteTransform"
+>
+  <div class="sticky-note-label">{{ note.label }}</div>
+  <p class="sticky-note-content">{{ note.content }}</p>
+  <div class="sticky-note-icon">
+    <span class="material-symbols-outlined">{{ note.icon }}</span>
+  </div>
+</div>

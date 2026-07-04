@@ -1,0 +1,65 @@
+@reference '../../../../tailwind.css';
+
+:host {
+  display: contents;
+}
+
+.modal-panel {
+  @apply w-full bg-surface-container border border-outline-variant rounded-xl p-lg flex flex-col gap-md max-h-[85vh] overflow-y-auto;
+}
+
+.modal-header {
+  @apply flex items-center justify-between mb-sm;
+}
+
+.modal-title {
+  @apply text-headline-md font-headline-md font-bold text-on-surface;
+}
+
+.modal-close {
+  @apply text-on-surface-variant hover:bg-surface-container-highest p-xs rounded-full transition-colors;
+}
+
+.modal-form {
+  @apply flex flex-col gap-md;
+}
+
+.modal-fields {
+  @apply flex flex-col gap-md;
+}
+
+.form-row {
+  @apply grid grid-cols-2 gap-md;
+}
+
+.form-field {
+  @apply flex flex-col gap-xs;
+}
+
+.form-label {
+  @apply text-label-caps font-label-caps text-on-surface-variant;
+}
+
+.form-input {
+  @apply bg-surface-container-high border border-outline-variant rounded-lg px-md py-sm text-body-sm text-on-surface focus:outline-none focus:border-primary transition-colors;
+}
+
+.form-textarea {
+  @apply resize-none;
+}
+
+.modal-actions {
+  @apply flex items-center justify-end gap-sm mt-md;
+}
+
+.btn {
+  @apply px-md py-sm rounded-lg text-body-sm font-bold transition-colors;
+}
+
+.btn-secondary {
+  @apply bg-surface-container-highest text-on-surface-variant hover:opacity-90;
+}
+
+.btn-primary {
+  @apply bg-primary text-on-primary hover:opacity-90;
+}

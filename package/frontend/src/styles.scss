@@ -1,0 +1,38 @@
+/* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+.material-symbols-outlined {
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #10141a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #30363d;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #444c56;
+}
+
+/* Strip Material's default dialog chrome so component-scoped styles fully control appearance */
+.app-dialog-panel .mdc-dialog__surface {
+  background: transparent;
+  box-shadow: none;
+  padding: 0;
+  border-radius: 0;
+  overflow: visible;
+}

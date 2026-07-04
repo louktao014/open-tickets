@@ -1,0 +1,53 @@
+@reference '../../tailwind.css';
+
+:host {
+  display: contents;
+}
+
+.sidenav {
+  @apply fixed left-0 top-0 bottom-0 w-[240px] pt-16 flex flex-col z-40 bg-surface-container border-r border-outline-variant;
+}
+
+.sidenav-top {
+  @apply p-md;
+}
+
+.brand {
+  @apply flex items-center gap-sm mb-lg;
+}
+
+.brand-icon {
+  @apply h-10 w-10 bg-primary-container flex items-center justify-center rounded;
+}
+
+.brand-title {
+  @apply text-label-caps font-label-caps text-on-surface;
+}
+
+.brand-subtitle {
+  @apply text-[10px] text-on-surface-variant uppercase tracking-wider;
+}
+
+.new-ticket-btn {
+  @apply w-full bg-primary text-on-primary px-md py-sm rounded-lg flex items-center justify-center gap-xs font-bold mb-lg hover:opacity-90 transition-opacity;
+}
+
+.nav-links {
+  @apply space-y-base;
+}
+
+.nav-link {
+  @apply flex items-center gap-md px-md py-sm rounded text-on-surface-variant hover:bg-surface-container-highest transition-colors;
+
+  &.active-link {
+    @apply bg-surface-container-highest text-primary font-bold border-r-2 border-primary transition-all;
+  }
+}
+
+.nav-label {
+  @apply text-label-caps font-label-caps;
+}
+
+.sidenav-bottom {
+  @apply mt-auto p-md border-t border-outline-variant;
+}

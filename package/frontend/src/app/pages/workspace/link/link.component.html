@@ -1,0 +1,47 @@
+<div class="link-card" [class.is-editing]="isEditing" (dblclick)="startEditing()">
+  <span class="material-symbols-outlined link-icon">link</span>
+
+  <div class="link-body" [class.hidden]="isEditing">
+    <div class="link-title">{{ item.title }}</div>
+    <div class="link-url">{{ item.url }}</div>
+  </div>
+  @if (isEditing) {
+    <div
+      class="link-edit-fields"
+      [class.hidden]="!isEditing"
+      #editFields
+      (mousedown)="$event.stopPropagation()"
+      (focusout)="onFieldsFocusOut($event)"
+    >
+      <input
+        #titleInput
+        class="link-input"
+        type="text"
+        placeholder="Title"
+        [value]="item.title"
+        (input)="onTitleInput(titleInput.value)"
+      />
+      <input
+        #urlInput
+        class="link-input link-input--url"
+        type="text"
+        placeholder="https://example.com"
+        [value]="item.url"
+        (input)="onUrlInput(urlInput.value)"
+      />
+    </div>
+  }
+
+  <a
+    class="link-external"
+    [class.hidden]="isEditing"
+    [href]="item.url"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Open link"
+    (mousedown)="$event.stopPropagation()"
+    (dblclick)="$event.stopPropagation()"
+  >
+    <span class="material-symbols-outlined">open_in_new</span>
+  </a>
+</div>

@@ -1,0 +1,131 @@
+@reference '../../../tailwind.css';
+
+:host {
+  display: contents;
+}
+
+.workspace-main {
+  @apply relative w-full h-[calc(100vh-4rem)] bg-surface-container-lowest overflow-hidden;
+  cursor: grab;
+
+  &:active {
+    cursor: grabbing;
+  }
+}
+
+.canvas-grid {
+  @apply absolute inset-0 opacity-30 pointer-events-none;
+  background-image: radial-gradient(#30363d 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+.workspace-viewport {
+  @apply relative w-full h-full;
+}
+
+.canvas-items {
+  @apply absolute inset-0;
+  transform-origin: 0 0;
+}
+
+.canvas-item {
+  @apply absolute;
+
+  &.is-dragging {
+    cursor: grabbing;
+  }
+}
+
+/* Whiteboard switcher */
+.whiteboard-switcher {
+  @apply absolute top-md left-md z-50 flex items-center gap-xs bg-surface-container-high/80 backdrop-blur-md border border-outline-variant rounded-full pl-md pr-md py-xs shadow-2xl cursor-pointer;
+}
+
+.whiteboard-switcher-icon {
+  @apply text-on-surface-variant text-[18px];
+}
+
+.whiteboard-select {
+  @apply bg-transparent border-none outline-none text-body-sm text-on-surface font-bold cursor-pointer pr-5;
+  appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23c0c7d4' stroke-width='2'><path d='M6 9l6 6 6-6'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right center;
+  background-size: 16px;
+}
+
+/* Bottom right controls */
+.bottom-right-controls {
+  @apply absolute bottom-md right-md flex flex-col gap-sm z-50;
+}
+
+.presence-row {
+  @apply flex flex-row-reverse mb-sm;
+}
+
+.presence-avatar {
+  @apply w-8 h-8 rounded-full border-2 border-surface-container-high ring-2 ring-background flex items-center justify-center -ml-2 text-[10px] font-bold overflow-hidden;
+
+  &.presence-avatar--amber {
+    background: #fbbf24;
+    color: #000;
+  }
+
+  &.presence-avatar--blue {
+    background: #3b82f6;
+    color: #fff;
+  }
+
+  &.presence-avatar--image img {
+    @apply w-full h-full object-cover;
+  }
+
+  &.presence-avatar--more {
+    @apply bg-surface-variant;
+  }
+}
+
+.zoom-controls {
+  @apply bg-surface-container-high border border-outline-variant rounded-xl flex items-center p-xs shadow-2xl;
+}
+
+.zoom-btn {
+  @apply p-sm hover:bg-surface-variant rounded-lg transition-colors text-on-surface-variant;
+}
+
+.zoom-display {
+  @apply px-md font-code-md text-xs text-on-surface w-16 text-center;
+}
+
+.zoom-divider {
+  @apply w-[1px] h-6 bg-outline-variant mx-1;
+}
+
+/* Mini-map */
+.mini-map {
+  @apply absolute bottom-md left-md w-40 h-24 bg-surface-container-high/40 backdrop-blur-sm border border-outline-variant rounded-lg overflow-hidden hidden md:block z-50 cursor-pointer;
+}
+
+.mini-map-viewport {
+  @apply absolute bg-primary/10 border-2 border-primary pointer-events-none;
+}
+
+.mini-map-items {
+  @apply absolute inset-0 opacity-40 pointer-events-none;
+}
+
+.mini-map-block {
+  @apply absolute bg-on-surface rounded-xs -translate-x-1/2 -translate-y-1/2;
+
+  &.mini-map-block--sm {
+    @apply w-2 h-2;
+  }
+
+  &.mini-map-block--wide {
+    @apply w-4 h-2;
+  }
+
+  &.mini-map-block--tall {
+    @apply w-2 h-4;
+  }
+}

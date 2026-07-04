@@ -1,0 +1,21 @@
+@reference '../../../../tailwind.css';
+
+:host {
+  display: contents;
+}
+
+.tool-hubs {
+  @apply absolute top-md left-1/2 -translate-x-1/2 flex items-center bg-surface-container-high/80 backdrop-blur-md border border-outline-variant p-xs rounded-full shadow-2xl gap-xs z-50;
+}
+
+.tool-btn {
+  @apply w-10 h-10 flex items-center justify-center rounded-full text-on-surface-variant hover:bg-surface-variant transition-colors;
+
+  &.tool-btn--active {
+    @apply bg-primary text-on-primary;
+  }
+}
+
+.tool-divider {
+  @apply w-[1px] h-6 bg-outline-variant mx-1;
+}

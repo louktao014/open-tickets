@@ -1,0 +1,49 @@
+@reference '../../../../tailwind.css';
+
+:host {
+  display: contents;
+}
+
+.link-card {
+  @apply flex items-center gap-sm w-64 p-sm bg-surface-container-high border border-outline-variant rounded-lg shadow-2xl cursor-grab select-none;
+
+  &.is-editing {
+    cursor: default;
+  }
+}
+
+.link-icon {
+  @apply text-primary text-[20px] shrink-0;
+}
+
+.link-body {
+  @apply flex-1 min-w-0;
+}
+
+.link-title {
+  @apply text-body-sm font-semibold text-on-surface truncate;
+}
+
+.link-url {
+  @apply font-code-md text-xs text-on-surface-variant truncate;
+}
+
+.link-external {
+  @apply flex items-center text-on-surface-variant text-[16px] shrink-0 hover:text-primary transition-colors;
+}
+
+.link-edit-fields {
+  @apply flex-1 min-w-0 flex flex-col gap-xs;
+}
+
+.link-input {
+  @apply w-full bg-surface-container-highest border border-outline-variant rounded px-xs py-[2px] text-body-sm text-on-surface outline-none;
+
+  &:focus {
+    @apply border-primary;
+  }
+}
+
+.link-input--url {
+  @apply font-code-md text-xs;
+}

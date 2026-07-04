@@ -1,0 +1,91 @@
+<main
+  class="workspace-main"
+  #viewport
+  (mousedown)="onCanvasMouseDown($event)"
+  (wheel)="onWheelZoom($event)"
+>
+  <div class="canvas-grid"></div>
+
+  <div class="whiteboard-switcher" (mousedown)="$event.stopPropagation()">
+    <span class="material-symbols-outlined whiteboard-switcher-icon">dashboard</span>
+    <select
+      #boardSelect
+      class="whiteboard-select"
+      [value]="selectedWhiteboardId"
+      (change)="onWhiteboardChange(boardSelect.value)"
+    >
+      <option *ngFor="let board of whiteboards" [value]="board.id">{{ board.name }}</option>
+    </select>
+  </div>
+
+  <div class="workspace-viewport">
+    <div class="canvas-items" [style.transform]="canvasTransform">
+      <ng-container *ngFor="let item of items; trackBy: trackByItemId">
+        <div
+          class="canvas-item"
+          [class.is-dragging]="isDragging(item)"
+          [style.left.px]="item.x"
+          [style.top.px]="item.y"
+          [style.zIndex]="item.zIndex"
+          (mousedown)="onItemMouseDown($event, item)"
+        >
+          <app-sticky-note
+            *ngIf="item.type === 'sticky-note'"
+            [note]="item"
+            [isDragging]="isDragging(item)"
+          ></app-sticky-note>
+
+          <app-uploaded-image *ngIf="item.type === 'image'" [image]="item"></app-uploaded-image>
+
+          <app-code-snippet *ngIf="item.type === 'code-snippet'" [item]="item"></app-code-snippet>
+
+          <app-text *ngIf="item.type === 'text'" [item]="item" [zoom]="zoom"></app-text>
+
+          <app-link *ngIf="item.type === 'link'" [item]="item"></app-link>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+
+  <app-tool-hubs></app-tool-hubs>
+
+  <div class="bottom-right-controls">
+    <div class="presence-row">
+      <div class="presence-avatar presence-avatar--amber">JD</div>
+      <div class="presence-avatar presence-avatar--blue">SM</div>
+      <div class="presence-avatar presence-avatar--image">
+        <img
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuCOcSZG_B9HjAvhkH3Pdwu1NV_FGOYaEmuJlOmi5nvpiq0bWiIP3wz01s_y3Eo6pxlQq0wJgbO27FxmPFWUQEm3nuVf8A9MmlynyeLMyXH9QRIQEliYw7B4TeT9Mwhf0syIzUy69LgaGWyRzf6-hmnorSZE5GhNqyMfwAX5NUxPo8ZtG6VjPAOsoRgD8XlGSvhKFghQzhLO_cqvBn2GbsLEI3ZFa0x4-7w3ZjhI0UJm7Lf7Hi16gFCcHNarhUv6FSdyNNKP_or7Oz3_"
+          alt="Collaborator"
+        />
+      </div>
+      <div class="presence-avatar presence-avatar--more">+4</div>
+    </div>
+
+    <div class="zoom-controls">
+      <button class="zoom-btn" type="button" (click)="zoomOut()" aria-label="Zoom out">
+        <span class="material-symbols-outlined">remove</span>
+      </button>
+      <div class="zoom-display">{{ zoomPercent }}%</div>
+      <button class="zoom-btn" type="button" (click)="zoomIn()" aria-label="Zoom in">
+        <span class="material-symbols-outlined">add</span>
+      </button>
+      <div class="zoom-divider"></div>
+      <button class="zoom-btn" type="button" (click)="resetView()" aria-label="Reset view">
+        <span class="material-symbols-outlined">fullscreen</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="mini-map" #miniMap (mousedown)="onMinimapMouseDown($event)">
+    <div class="mini-map-items">
+      <div
+        *ngFor="let item of items; trackBy: trackByItemId"
+        class="mini-map-block"
+        [ngClass]="minimapBlockClass(item)"
+        [ngStyle]="minimapItemStyle(item)"
+      ></div>
+    </div>
+    <div class="mini-map-viewport" [ngStyle]="minimapViewportStyle"></div>
+  </div>
+</main>
