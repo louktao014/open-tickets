@@ -72,7 +72,7 @@
   @apply text-[10px] uppercase font-bold px-sm py-[2px] rounded border;
 
   &.ticket-priority--low,
-  &.ticket-priority--med {
+  &.ticket-priority--medium {
     @apply text-on-surface-variant bg-surface-container-highest border-outline-variant;
   }
 

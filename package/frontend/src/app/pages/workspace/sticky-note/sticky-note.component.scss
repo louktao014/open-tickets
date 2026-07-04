@@ -5,7 +5,7 @@
 }
 
 .sticky-note {
-  @apply relative w-48 h-48 p-md rounded-xs font-medium shadow-lg;
+  @apply relative w-48 h-48 p-md rounded-xs font-medium shadow-lg flex flex-col;
   box-shadow:
     0 4px 6px -1px rgba(0, 0, 0, 0.3),
     0 2px 4px -1px rgba(0, 0, 0, 0.2);
@@ -21,6 +21,11 @@
       0 20px 25px -5px rgba(0, 0, 0, 0.4),
       0 10px 10px -5px rgba(0, 0, 0, 0.3);
   }
+
+  &.is-editing {
+    cursor: default;
+    user-select: text;
+  }
 }
 
 .sticky-note-label {
@@ -29,6 +34,15 @@
 
 .sticky-note-content {
   @apply font-body-sm leading-tight;
+  flex: 1;
+  width: 100%;
+  border: none;
+  outline: none;
+  resize: none;
+  background: transparent;
+  font-family: inherit;
+  cursor: inherit;
+  overflow: hidden;
 }
 
 .sticky-note-icon {

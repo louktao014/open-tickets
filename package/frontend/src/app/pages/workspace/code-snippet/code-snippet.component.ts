@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CodeSnippetItem } from '../workspace.component';
+import { CodeSnippetItem } from '../../../interface/workspace.interface';
 
 @Component({
   selector: 'app-code-snippet',

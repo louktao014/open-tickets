@@ -29,19 +29,24 @@
           [style.zIndex]="item.zIndex"
           (mousedown)="onItemMouseDown($event, item)"
         >
-          <app-sticky-note
-            *ngIf="item.type === 'sticky-note'"
-            [note]="item"
-            [isDragging]="isDragging(item)"
-          ></app-sticky-note>
-
-          <app-uploaded-image *ngIf="item.type === 'image'" [image]="item"></app-uploaded-image>
-
-          <app-code-snippet *ngIf="item.type === 'code-snippet'" [item]="item"></app-code-snippet>
-
-          <app-text *ngIf="item.type === 'text'" [item]="item" [zoom]="zoom"></app-text>
-
-          <app-link *ngIf="item.type === 'link'" [item]="item"></app-link>
+          @switch (item.type) {
+            @case (EnumWorkspaceItemType.StickyNote) {
+              <app-sticky-note [note]="item" [isDragging]="isDragging(item)"></app-sticky-note>
+            }
+            @case (EnumWorkspaceItemType.Image) {
+              <app-uploaded-image [image]="item"></app-uploaded-image>
+            }
+            @case (EnumWorkspaceItemType.CodeSnippet) {
+              <app-code-snippet [item]="item"></app-code-snippet>
+            }
+            @case (EnumWorkspaceItemType.Text) {
+              <app-text [item]="item" [zoom]="zoom"></app-text>
+            }
+            @case (EnumWorkspaceItemType.Link) {
+              <app-link [item]="item"></app-link>
+            }
+            @default {}
+          }
         </div>
       </ng-container>
     </div>
@@ -72,7 +77,7 @@
       </button>
       <div class="zoom-divider"></div>
       <button class="zoom-btn" type="button" (click)="resetView()" aria-label="Reset view">
-        <span class="material-symbols-outlined">fullscreen</span>
+        <span class="material-symbols-outlined">restart_alt</span>
       </button>
     </div>
   </div>

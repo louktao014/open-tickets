@@ -1,12 +1,25 @@
 <div
   class="sticky-note"
   [class.is-dragging]="isDragging"
+  [class.is-editing]="isEditing"
   [style.background]="note.bgColor"
   [style.color]="note.textColor"
   [style.transform]="noteTransform"
 >
   <div class="sticky-note-label">{{ note.label }}</div>
-  <p class="sticky-note-content">{{ note.content }}</p>
+  <textarea
+    #contentInput
+    class="sticky-note-content"
+    spellcheck="false"
+    [style.fontSize.px]="contentFontSize"
+    [style.color]="note.textColor"
+    [value]="note.content"
+    [readOnly]="!isEditing"
+    (input)="onContentInput(contentInput.value)"
+    (mousedown)="onContentMouseDown($event)"
+    (dblclick)="startEditing(contentInput)"
+    (blur)="stopEditing()"
+  ></textarea>
   <div class="sticky-note-icon">
     <span class="material-symbols-outlined">{{ note.icon }}</span>
   </div>

@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
-import { LinkItem } from '../workspace.component';
+import { LinkItem } from '../../../interface/workspace.interface';
 
 @Component({
   selector: 'app-link',

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { KanbanPriority } from '../kanban.component';
+import { KanbanPriority } from '../../../interface/kanban.interface';
 
 export interface TicketFormValue {
   title: string;
@@ -25,7 +25,7 @@ const TODAY = new Date().toISOString().slice(0, 10);
   styleUrl: './ticket-form-modal.component.scss',
 })
 export class TicketFormModalComponent {
-  readonly priorities: KanbanPriority[] = ['Low', 'Med', 'High', 'Urgent'];
+  readonly priorities: KanbanPriority[] = ['Low', 'Medium', 'High', 'Urgent'];
   readonly taskTypes = ['Feature', 'Bug', 'Chore', 'Improvement'];
   readonly jobTypes = ['Frontend', 'Backend', 'DevOps', 'QA', 'Design'];
 

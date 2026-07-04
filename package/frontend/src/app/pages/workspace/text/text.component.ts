@@ -1,5 +1,5 @@
 import { Component, HostListener, Input } from '@angular/core';
-import { TextItem } from '../workspace.component';
+import { TextItem } from '../../../interface/workspace.interface';
 
 export type TextResizeCorner = 'nw' | 'ne' | 'sw' | 'se';
 

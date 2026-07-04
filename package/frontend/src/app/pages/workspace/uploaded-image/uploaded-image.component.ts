@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UploadedImageItem } from '../workspace.component';
+import { UploadedImageItem } from '../../../interface/workspace.interface';
 
 @Component({
   selector: 'app-uploaded-image',
