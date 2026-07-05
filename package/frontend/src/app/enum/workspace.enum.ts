@@ -5,4 +5,8 @@ export enum EnumWorkspaceItemType {
   TEXT = 'text',
   LINK = 'link',
   SHAPES = 'shapes',
+  SELECT = 'select',
+  PEN = 'pen',
+  UNDO = 'undo',
+  REDO = 'redo',
 }

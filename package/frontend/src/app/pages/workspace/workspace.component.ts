@@ -24,8 +24,9 @@ const DEFAULT_TEXT_HEIGHT = 60;
 const DEFAULT_LINK_WIDTH = 256;
 const DEFAULT_LINK_HEIGHT = 64;
 const DEFAULT_CODE_SNIPPET_WIDTH = 320;
-const DEFAULT_CODE_SNIPPET_HEIGHT = 120;
-const DEFAULT_CODE_SNIPPET_FILE_NAME = 'untitled.txt';
+const DEFAULT_CODE_SNIPPET_HEIGHT = 200;
+const DEFAULT_CODE_SNIPPET_FILE_NAME = 'untitled';
+const DEFAULT_CODE_SNIPPET_LANGUAGE = 'typescript';
 
 @Component({
   selector: 'app-workspace',
@@ -320,7 +321,10 @@ export class WorkspaceComponent {
           y: center.y - DEFAULT_CODE_SNIPPET_HEIGHT / 2,
           zIndex: 0,
           fileName: DEFAULT_CODE_SNIPPET_FILE_NAME,
-          code: '',
+          code: 'Code goes here...',
+          language: DEFAULT_CODE_SNIPPET_LANGUAGE,
+          width: DEFAULT_CODE_SNIPPET_WIDTH,
+          height: DEFAULT_CODE_SNIPPET_HEIGHT,
         };
       case EnumWorkspaceItemType.IMAGE:
         return {

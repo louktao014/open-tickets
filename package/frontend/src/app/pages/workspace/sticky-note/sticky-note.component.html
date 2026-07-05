@@ -9,6 +9,7 @@
   <input
     #labelInput
     class="sticky-note-label"
+    [class.on-focus]="isLabelEditing"
     type="text"
     spellcheck="false"
     [value]="note.label"
@@ -17,10 +18,12 @@
     (mousedown)="onLabelMouseDown($event)"
     (dblclick)="startEditingLabel(labelInput)"
     (blur)="stopEditingLabel()"
+    placeholder="Sticky Note..."
   />
   <textarea
     #contentInput
     class="sticky-note-content"
+    [class.on-focus]="isContentEditing"
     spellcheck="false"
     [style.fontSize.px]="contentFontSize"
     [style.color]="note.textColor"
@@ -30,6 +33,7 @@
     (mousedown)="onContentMouseDown($event)"
     (dblclick)="startEditing(contentInput)"
     (blur)="stopEditing()"
+    placeholder="Write your note here..."
   ></textarea>
   <div class="sticky-note-icon">
     <span class="material-symbols-outlined">{{ note.icon }}</span>

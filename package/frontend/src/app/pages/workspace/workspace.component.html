@@ -47,7 +47,7 @@
               <app-uploaded-image [image]="item"></app-uploaded-image>
             }
             @case (EnumWorkspaceItemType.CODE_SNIPPET) {
-              <app-code-snippet [item]="item"></app-code-snippet>
+              <app-code-snippet [item]="item" [zoom]="zoom"></app-code-snippet>
             }
             @case (EnumWorkspaceItemType.TEXT) {
               <app-text [item]="item" [zoom]="zoom"></app-text>

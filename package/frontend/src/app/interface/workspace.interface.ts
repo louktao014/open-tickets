@@ -36,6 +36,9 @@ export interface CodeSnippetItem extends CanvasItemBase {
   type: EnumWorkspaceItemType.CODE_SNIPPET;
   fileName: string;
   code: string;
+  language: string;
+  width: number;
+  height: number;
 }
 
 export interface TextItem extends CanvasItemBase {

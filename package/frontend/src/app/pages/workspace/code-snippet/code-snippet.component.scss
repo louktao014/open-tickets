@@ -4,12 +4,22 @@
   display: contents;
 }
 
+.code-snippet-wrapper {
+  @apply relative select-none;
+  cursor: grab;
+}
+
 .code-snippet {
-  @apply w-[320px] bg-[#0d1117] border border-[#30363d] rounded-lg shadow-2xl overflow-hidden cursor-grab select-none;
+  @apply w-full h-full bg-[#0d1117] border border-[#30363d] rounded-lg shadow-2xl overflow-hidden flex flex-col;
+
+  &.is-editing {
+    cursor: default;
+    user-select: text;
+  }
 }
 
 .code-snippet-header {
-  @apply bg-[#161b22] px-md py-xs border-b border-[#30363d] flex justify-between items-center;
+  @apply bg-[#161b22] px-md py-xs border-b border-[#30363d] flex justify-between items-center shrink-0;
 }
 
 .code-snippet-file {
@@ -18,6 +28,17 @@
   .material-symbols-outlined {
     @apply text-xs;
   }
+}
+
+.code-snippet-filename-input {
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  cursor: inherit;
 }
 
 .code-snippet-dots {
@@ -41,24 +62,38 @@
 }
 
 .code-snippet-body {
-  @apply p-md font-code-md text-xs flex gap-md;
-}
-
-.code-snippet-lines {
-  @apply text-on-surface-variant opacity-30 text-right select-none max-h-40 overflow-hidden leading-5 shrink-0;
+  @apply p-md font-code-md text-xs flex gap-md flex-1 min-h-0;
 }
 
 .code-snippet-code {
-  @apply text-[#c9d1d9] overflow-x-auto overflow-y-auto max-h-40 w-full flex-1 leading-5 bg-transparent border-none outline-none resize-none whitespace-pre;
+  @apply text-[#c9d1d9] w-full h-full flex-1 leading-5;
   font-family: inherit;
+}
 
-  &::-webkit-scrollbar {
-    width: 4px;
-    height: 4px;
-  }
+.resize-handle {
+  @apply absolute w-2.5 h-2.5 bg-primary border border-surface rounded-full opacity-0 transition-opacity;
+}
 
-  &::-webkit-scrollbar-thumb {
-    background: #30363d;
-    border-radius: 10px;
-  }
+.code-snippet-wrapper:hover .resize-handle {
+  @apply opacity-100;
+}
+
+.resize-handle--nw {
+  @apply -top-1 -left-1;
+  cursor: nwse-resize;
+}
+
+.resize-handle--ne {
+  @apply -top-1 -right-1;
+  cursor: nesw-resize;
+}
+
+.resize-handle--sw {
+  @apply -bottom-1 -left-1;
+  cursor: nesw-resize;
+}
+
+.resize-handle--se {
+  @apply -bottom-1 -right-1;
+  cursor: nwse-resize;
 }

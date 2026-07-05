@@ -3,9 +3,10 @@ import { CommonModule } from '@angular/common';
 import { EnumWorkspaceItemType } from '../../../enum/workspace.enum';
 
 export interface ToolHubsButton {
-  id: string;
+  id: EnumWorkspaceItemType;
   icon: string;
   iconClass?: string;
+  isActive?: boolean;
 }
 
 export interface StickyNoteColorOption {
@@ -36,7 +37,7 @@ const STICKY_NOTE_COLOR_OPTIONS: StickyNoteColorOption[] = [
   { id: 'violet', label: 'Violet', bgColor: '#ddd6fe', textColor: '#4c1d95' },
 ];
 
-const INSERTABLE_TOOL_TYPES: ReadonlySet<string> = new Set([
+const INSERTABLE_TOOL_TYPES: ReadonlySet<EnumWorkspaceItemType> = new Set([
   EnumWorkspaceItemType.TEXT,
   EnumWorkspaceItemType.LINK,
   EnumWorkspaceItemType.CODE_SNIPPET,
@@ -58,28 +59,33 @@ export class ToolHubsComponent {
   readonly stickyNoteColorOptions = STICKY_NOTE_COLOR_OPTIONS;
 
   readonly primaryTools: ToolHubsButton[] = [
-    { id: 'select', icon: 'near_me' },
-    { id: 'pen', icon: 'edit' },
+    { id: EnumWorkspaceItemType.SELECT, icon: 'near_me', isActive: true },
+    { id: EnumWorkspaceItemType.PEN, icon: 'edit', isActive: false },
   ];
 
   readonly insertTools: ToolHubsButton[] = [
-    { id: EnumWorkspaceItemType.STICKY_NOTE, icon: 'sticky_note_2', iconClass: 'text-[#fde68a]' },
-    { id: EnumWorkspaceItemType.SHAPES, icon: 'category' },
-    { id: EnumWorkspaceItemType.TEXT, icon: 'text_fields' },
-    { id: EnumWorkspaceItemType.LINK, icon: 'link' },
-    { id: EnumWorkspaceItemType.IMAGE, icon: 'image' },
-    { id: EnumWorkspaceItemType.CODE_SNIPPET, icon: 'code' },
+    {
+      id: EnumWorkspaceItemType.STICKY_NOTE,
+      icon: 'sticky_note_2',
+      iconClass: 'text-[#fde68a]',
+      isActive: true,
+    },
+    { id: EnumWorkspaceItemType.SHAPES, icon: 'category', isActive: false },
+    { id: EnumWorkspaceItemType.TEXT, icon: 'text_fields', isActive: true },
+    { id: EnumWorkspaceItemType.LINK, icon: 'link', isActive: true },
+    { id: EnumWorkspaceItemType.IMAGE, icon: 'image', isActive: true },
+    { id: EnumWorkspaceItemType.CODE_SNIPPET, icon: 'code', isActive: true },
   ];
 
   readonly historyTools: ToolHubsButton[] = [
-    { id: 'undo', icon: 'undo' },
-    { id: 'redo', icon: 'redo' },
+    { id: EnumWorkspaceItemType.UNDO, icon: 'undo', isActive: true },
+    { id: EnumWorkspaceItemType.REDO, icon: 'redo', isActive: true },
   ];
 
-  activeToolId = 'select';
+  activeToolId = EnumWorkspaceItemType.SELECT;
   isStickyNoteColorPickerOpen = false;
 
-  selectTool(id: string) {
+  selectTool(id: EnumWorkspaceItemType) {
     this.activeToolId = id;
   }
 
@@ -93,14 +99,14 @@ export class ToolHubsComponent {
     this.isStickyNoteColorPickerOpen = false;
     this.activeToolId = tool.id;
 
-    if (INSERTABLE_TOOL_TYPES.has(tool.id)) {
+    if (INSERTABLE_TOOL_TYPES.has(tool.id as EnumWorkspaceItemType)) {
       this.insertItem.emit({ type: tool.id as InsertableWorkspaceItemType });
     }
   }
 
   chooseStickyNoteColor(color: StickyNoteColorOption) {
     this.isStickyNoteColorPickerOpen = false;
-    this.activeToolId = 'select';
+    this.activeToolId = EnumWorkspaceItemType.SELECT;
     this.insertItem.emit({ type: EnumWorkspaceItemType.STICKY_NOTE, color });
   }
 
