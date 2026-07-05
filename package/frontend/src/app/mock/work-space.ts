@@ -18,6 +18,8 @@ export const MOCK_WORKSPACES: Whiteboard[] = [
         textColor: '#451a03',
         rotation: -2,
         icon: 'person',
+        width: 192,
+        height: 192,
       },
       {
         id: 'note-2',
@@ -31,6 +33,8 @@ export const MOCK_WORKSPACES: Whiteboard[] = [
         textColor: '#064e3b',
         rotation: 1,
         icon: 'check_circle',
+        width: 192,
+        height: 192,
       },
       {
         id: 'note-3',
@@ -44,6 +48,8 @@ export const MOCK_WORKSPACES: Whiteboard[] = [
         textColor: '#7c2d12',
         rotation: -1,
         icon: 'warning',
+        width: 192,
+        height: 192,
       },
       {
         id: 'note-4',
@@ -57,6 +63,8 @@ export const MOCK_WORKSPACES: Whiteboard[] = [
         textColor: '#1e3a8a',
         rotation: 3,
         icon: 'layers',
+        width: 192,
+        height: 192,
       },
       {
         id: 'image-1',
@@ -122,6 +130,8 @@ export const MOCK_WORKSPACES: Whiteboard[] = [
         zIndex: 9,
         title: 'Deployment runbook',
         url: 'https://github.com',
+        width: 256,
+        height: 72,
       },
     ],
   },
@@ -141,6 +151,8 @@ export const MOCK_WORKSPACES: Whiteboard[] = [
         textColor: '#064e3b',
         rotation: -1,
         icon: 'thumb_up',
+        width: 192,
+        height: 192,
       },
       {
         id: 'retro-note-2',
@@ -154,6 +166,8 @@ export const MOCK_WORKSPACES: Whiteboard[] = [
         textColor: '#7c2d12',
         rotation: 2,
         icon: 'priority_high',
+        width: 192,
+        height: 192,
       },
       {
         id: 'retro-note-3',
@@ -167,6 +181,8 @@ export const MOCK_WORKSPACES: Whiteboard[] = [
         textColor: '#1e3a8a',
         rotation: -2,
         icon: 'checklist',
+        width: 192,
+        height: 192,
       },
     ],
   },

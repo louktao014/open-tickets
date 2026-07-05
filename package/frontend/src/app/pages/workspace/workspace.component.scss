@@ -29,10 +29,15 @@
 }
 
 .canvas-item {
-  @apply absolute;
+  @apply absolute rounded-xs;
 
   &.is-dragging {
     cursor: grabbing;
+  }
+
+  &.is-focused {
+    outline: 2px solid #22c55e;
+    outline-offset: 2px;
   }
 
   &:hover .item-delete-btn {

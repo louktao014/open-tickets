@@ -24,6 +24,7 @@
         <div
           class="canvas-item"
           [class.is-dragging]="isDragging(item)"
+          [class.is-focused]="isFocused(item)"
           [style.left.px]="item.x"
           [style.top.px]="item.y"
           [style.zIndex]="item.zIndex"
@@ -41,10 +42,14 @@
 
           @switch (item.type) {
             @case (EnumWorkspaceItemType.STICKY_NOTE) {
-              <app-sticky-note [note]="item" [isDragging]="isDragging(item)"></app-sticky-note>
+              <app-sticky-note
+                [note]="item"
+                [isDragging]="isDragging(item)"
+                [zoom]="zoom"
+              ></app-sticky-note>
             }
             @case (EnumWorkspaceItemType.IMAGE) {
-              <app-uploaded-image [image]="item"></app-uploaded-image>
+              <app-uploaded-image [image]="item" [zoom]="zoom"></app-uploaded-image>
             }
             @case (EnumWorkspaceItemType.CODE_SNIPPET) {
               <app-code-snippet [item]="item" [zoom]="zoom"></app-code-snippet>
@@ -53,7 +58,7 @@
               <app-text [item]="item" [zoom]="zoom"></app-text>
             }
             @case (EnumWorkspaceItemType.LINK) {
-              <app-link [item]="item"></app-link>
+              <app-link [item]="item" [zoom]="zoom"></app-link>
             }
             @default {}
           }

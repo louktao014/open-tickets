@@ -1,8 +1,16 @@
-import { Component, Input } from '@angular/core';
+import { Component, HostListener, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UploadedImageItem } from '../../../interface/workspace.interface';
+import {
+  computeResizedRect,
+  ResizeCorner,
+  ResizeStart,
+  startResize,
+} from '../shared/item-resize.util';
 
 const MAX_IMAGE_FILE_SIZE_BYTES = 5 * 1024 * 1024;
+const MIN_WIDTH = 80;
+const MIN_HEIGHT = 80;
 
 @Component({
   selector: 'app-uploaded-image',
@@ -13,6 +21,11 @@ const MAX_IMAGE_FILE_SIZE_BYTES = 5 * 1024 * 1024;
 })
 export class UploadedImageComponent {
   @Input({ required: true }) image!: UploadedImageItem;
+  @Input() zoom = 1;
+
+  private isResizing = false;
+  private activeCorner: ResizeCorner | null = null;
+  private resizeStart: ResizeStart = { x: 0, y: 0, width: 0, height: 0, itemX: 0, itemY: 0 };
 
   triggerUpload(fileInput: HTMLInputElement) {
     fileInput.click();
@@ -20,6 +33,42 @@ export class UploadedImageComponent {
 
   onUploadMouseDown(event: MouseEvent) {
     event.stopPropagation();
+  }
+
+  onResizeMouseDown(event: MouseEvent, corner: ResizeCorner) {
+    event.stopPropagation();
+    event.preventDefault();
+
+    this.isResizing = true;
+    this.activeCorner = corner;
+    this.resizeStart = startResize(event, this.image);
+  }
+
+  @HostListener('document:mousemove', ['$event'])
+  onDocumentMouseMove(event: MouseEvent) {
+    if (!this.isResizing || !this.activeCorner) {
+      return;
+    }
+
+    const rect = computeResizedRect(
+      event,
+      this.activeCorner,
+      this.resizeStart,
+      this.zoom,
+      MIN_WIDTH,
+      MIN_HEIGHT,
+    );
+
+    this.image.x = rect.x;
+    this.image.y = rect.y;
+    this.image.width = rect.width;
+    this.image.height = rect.height;
+  }
+
+  @HostListener('document:mouseup')
+  onDocumentMouseUp() {
+    this.isResizing = false;
+    this.activeCorner = null;
   }
 
   onFileSelected(event: Event) {

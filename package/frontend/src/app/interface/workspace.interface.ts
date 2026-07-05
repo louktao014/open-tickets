@@ -18,6 +18,8 @@ export interface StickyNoteItem extends CanvasItemBase {
   textColor: string;
   rotation: number;
   icon: string;
+  width: number;
+  height: number;
 }
 
 export interface UploadedImageItem extends CanvasItemBase {
@@ -54,6 +56,8 @@ export interface LinkItem extends CanvasItemBase {
   type: EnumWorkspaceItemType.LINK;
   url: string;
   title: string;
+  width: number;
+  height: number;
 }
 
 export type WorkspaceCanvasItem =
