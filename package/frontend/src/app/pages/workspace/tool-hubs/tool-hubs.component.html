@@ -12,26 +12,28 @@
   <div class="tool-divider"></div>
 
   <div *ngFor="let tool of insertTools" class="tool-btn-wrapper">
-    <button
-      type="button"
-      class="tool-btn"
-      [class.tool-btn--active]="activeToolId === tool.id"
-      (click)="onInsertToolClick(tool)"
-    >
-      <span class="material-symbols-outlined" [ngClass]="tool.iconClass">{{ tool.icon }}</span>
-    </button>
-    @if (tool.id === EnumWorkspaceItemType.STICKY_NOTE && isStickyNoteColorPickerOpen) {
-      <div class="sticky-note-color-picker">
-        <button
-          *ngFor="let color of stickyNoteColorOptions"
-          type="button"
-          class="sticky-note-color-option"
-          [style.background]="color.bgColor"
-          [attr.aria-label]="color.label"
-          [title]="color.label"
-          (click)="chooseStickyNoteColor(color)"
-        ></button>
-      </div>
+    @if (tool.isActive) {
+      <button
+        type="button"
+        class="tool-btn"
+        [class.tool-btn--active]="activeToolId === tool.id"
+        (click)="onInsertToolClick(tool)"
+      >
+        <span class="material-symbols-outlined" [ngClass]="tool.iconClass">{{ tool.icon }}</span>
+      </button>
+      @if (tool.id === EnumWorkspaceItemType.STICKY_NOTE && isStickyNoteColorPickerOpen) {
+        <div class="sticky-note-color-picker">
+          <button
+            *ngFor="let color of stickyNoteColorOptions"
+            type="button"
+            class="sticky-note-color-option"
+            [style.background]="color.bgColor"
+            [attr.aria-label]="color.label"
+            [title]="color.label"
+            (click)="chooseStickyNoteColor(color)"
+          ></button>
+        </div>
+      }
     }
   </div>
 

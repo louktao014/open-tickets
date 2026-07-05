@@ -96,8 +96,11 @@ export const MOCK_WORKSPACES: Whiteboard[] = [
         x: 100,
         y: 400,
         zIndex: 7,
-        fileName: 'deploy.py',
-        code: 'import os\ndef deploy():\n    print("Starting...")\n    os.system("terraform apply")\n# End of script',
+        fileName: 'deploy.ts',
+        code: 'import { execSync } from "child_process";\n\nfunction deploy(): void {\n  console.log("Starting...");\n  execSync("terraform apply", { stdio: "inherit" });\n}\n\n// End of script',
+        language: 'typescript',
+        width: 320,
+        height: 200,
       },
       {
         id: 'text-1',

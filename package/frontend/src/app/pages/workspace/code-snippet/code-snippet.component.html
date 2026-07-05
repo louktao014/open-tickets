@@ -1,28 +1,42 @@
-<div class="code-snippet">
-  <div class="code-snippet-header">
-    <div class="code-snippet-file">
-      <span class="material-symbols-outlined">terminal</span>
-      <span>{{ item.fileName }}</span>
+<div class="code-snippet-wrapper" [style.width.px]="item.width" [style.height.px]="item.height">
+  <div class="code-snippet" [class.is-editing]="isEditing || isFileNameEditing">
+    <div class="code-snippet-header">
+      <div class="code-snippet-file">
+        <span class="material-symbols-outlined">terminal</span>
+        <input
+          #fileNameInput
+          class="code-snippet-filename-input"
+          type="text"
+          spellcheck="false"
+          [value]="
+            item.fileName +
+            (listShotLanguages[item.language] ? '.' + listShotLanguages[item.language] : '')
+          "
+          [readOnly]="!isFileNameEditing"
+          (input)="onFileNameInput(fileNameInput.value)"
+          (mousedown)="onFileNameMouseDown($event)"
+          (dblclick)="startEditingFileName(fileNameInput)"
+          (blur)="stopEditingFileName()"
+        />
+      </div>
+      <div class="code-snippet-dots">
+        <div class="dot dot-error"></div>
+        <div class="dot dot-tertiary"></div>
+        <div class="dot dot-secondary"></div>
+      </div>
     </div>
-    <div class="code-snippet-dots">
-      <div class="dot dot-error"></div>
-      <div class="dot dot-tertiary"></div>
-      <div class="dot dot-secondary"></div>
+    <div class="code-snippet-body">
+      <div
+        #codeEditorHost
+        class="code-snippet-code"
+        (mousedown)="onEditorMouseDown($event)"
+        (dblclick)="startEditing()"
+      ></div>
     </div>
   </div>
-  <div class="code-snippet-body">
-    <div class="code-snippet-lines" #lineGutter>
-      <div *ngFor="let lineNumber of getLineNumbers(item.code)">{{ lineNumber }}</div>
-    </div>
-    <textarea
-      #codeInput
-      class="code-snippet-code custom-scrollbar"
-      spellcheck="false"
-      wrap="off"
-      [value]="item.code"
-      (input)="onCodeInput(codeInput.value)"
-      (scroll)="lineGutter.scrollTop = codeInput.scrollTop"
-      (mousedown)="$event.stopPropagation()"
-    ></textarea>
-  </div>
+
+  <div class="resize-handle resize-handle--nw" (mousedown)="onResizeMouseDown($event, 'nw')"></div>
+  <div class="resize-handle resize-handle--ne" (mousedown)="onResizeMouseDown($event, 'ne')"></div>
+  <div class="resize-handle resize-handle--sw" (mousedown)="onResizeMouseDown($event, 'sw')"></div>
+  <div class="resize-handle resize-handle--se" (mousedown)="onResizeMouseDown($event, 'se')"></div>
 </div>
