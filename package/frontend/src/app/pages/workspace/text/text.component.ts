@@ -1,7 +1,11 @@
 import { Component, HostListener, Input } from '@angular/core';
 import { TextItem } from '../../../interface/workspace.interface';
-
-export type TextResizeCorner = 'nw' | 'ne' | 'sw' | 'se';
+import {
+  computeResizedRect,
+  ResizeCorner,
+  ResizeStart,
+  startResize,
+} from '../shared/item-resize.util';
 
 const MIN_WIDTH = 80;
 const MIN_HEIGHT = 32;
@@ -20,8 +24,8 @@ export class TextComponent {
   isEditing = false;
 
   private isResizing = false;
-  private activeCorner: TextResizeCorner | null = null;
-  private resizeStart = { x: 0, y: 0, width: 0, height: 0, itemX: 0, itemY: 0 };
+  private activeCorner: ResizeCorner | null = null;
+  private resizeStart: ResizeStart = { x: 0, y: 0, width: 0, height: 0, itemX: 0, itemY: 0 };
 
   onContentInput(value: string) {
     this.item.content = value;
@@ -42,20 +46,13 @@ export class TextComponent {
     this.isEditing = false;
   }
 
-  onResizeMouseDown(event: MouseEvent, corner: TextResizeCorner) {
+  onResizeMouseDown(event: MouseEvent, corner: ResizeCorner) {
     event.stopPropagation();
     event.preventDefault();
 
     this.isResizing = true;
     this.activeCorner = corner;
-    this.resizeStart = {
-      x: event.clientX,
-      y: event.clientY,
-      width: this.item.width,
-      height: this.item.height,
-      itemX: this.item.x,
-      itemY: this.item.y,
-    };
+    this.resizeStart = startResize(event, this.item);
   }
 
   @HostListener('document:mousemove', ['$event'])
@@ -64,24 +61,19 @@ export class TextComponent {
       return;
     }
 
-    const deltaX = (event.clientX - this.resizeStart.x) / this.zoom;
-    const deltaY = (event.clientY - this.resizeStart.y) / this.zoom;
+    const rect = computeResizedRect(
+      event,
+      this.activeCorner,
+      this.resizeStart,
+      this.zoom,
+      MIN_WIDTH,
+      MIN_HEIGHT,
+    );
 
-    const isLeft = this.activeCorner === 'nw' || this.activeCorner === 'sw';
-    const isTop = this.activeCorner === 'nw' || this.activeCorner === 'ne';
-
-    const nextWidth = Math.max(MIN_WIDTH, this.resizeStart.width + (isLeft ? -deltaX : deltaX));
-    const nextHeight = Math.max(MIN_HEIGHT, this.resizeStart.height + (isTop ? -deltaY : deltaY));
-
-    if (isLeft) {
-      this.item.x = this.resizeStart.itemX + (this.resizeStart.width - nextWidth);
-    }
-    if (isTop) {
-      this.item.y = this.resizeStart.itemY + (this.resizeStart.height - nextHeight);
-    }
-
-    this.item.width = nextWidth;
-    this.item.height = nextHeight;
+    this.item.x = rect.x;
+    this.item.y = rect.y;
+    this.item.width = rect.width;
+    this.item.height = rect.height;
   }
 
   @HostListener('document:mouseup')

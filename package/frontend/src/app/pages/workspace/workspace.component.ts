@@ -64,6 +64,8 @@ export class WorkspaceComponent {
   private dragOffset = { x: 0, y: 0 };
   private zIndexCounter = 100;
 
+  private focusedItem: WorkspaceCanvasItem | null = null;
+
   get activeWhiteboard(): Whiteboard {
     return (
       this.whiteboards.find((board) => board.id === this.selectedWhiteboardId) ??
@@ -109,6 +111,10 @@ export class WorkspaceComponent {
     return this.activeItem === item;
   }
 
+  isFocused(item: WorkspaceCanvasItem): boolean {
+    return this.focusedItem === item;
+  }
+
   trackByItemId(_index: number, item: WorkspaceCanvasItem): string {
     return item.id;
   }
@@ -116,12 +122,14 @@ export class WorkspaceComponent {
   onWhiteboardChange(id: string) {
     this.selectedWhiteboardId = id;
     this.activeItem = null;
+    this.focusedItem = null;
     this.isPanning = false;
     this.resetView();
   }
 
   onInsertItem(event: InsertToolEvent) {
     const newItem = this.createItemForInsert(event);
+    this.focusedItem = newItem;
     if (!newItem) {
       return;
     }
@@ -130,7 +138,7 @@ export class WorkspaceComponent {
     this.activeWhiteboard.items.push(newItem);
   }
 
-  deleteItem(event: MouseEvent, item: WorkspaceCanvasItem) {
+  deleteItem(event: Event, item: WorkspaceCanvasItem) {
     event.stopPropagation();
 
     const board = this.activeWhiteboard;
@@ -138,6 +146,9 @@ export class WorkspaceComponent {
 
     if (this.activeItem === item) {
       this.activeItem = null;
+    }
+    if (this.focusedItem === item) {
+      this.focusedItem = null;
     }
   }
 
@@ -177,6 +188,7 @@ export class WorkspaceComponent {
     if (event.button !== 0) {
       return;
     }
+    this.focusedItem = null;
     this.isPanning = true;
     this.panStartScreen = { x: event.clientX, y: event.clientY };
     this.panStartOffset = { x: this.panX, y: this.panY };
@@ -189,6 +201,7 @@ export class WorkspaceComponent {
     }
 
     this.activeItem = item;
+    this.focusedItem = item;
     item.zIndex = ++this.zIndexCounter;
 
     const canvasPoint = this.screenToCanvasPoint(event.clientX, event.clientY);
@@ -216,7 +229,34 @@ export class WorkspaceComponent {
     this.activeItem = null;
   }
 
+  @HostListener('document:keydown', ['$event'])
+  onDocumentKeyDown(event: KeyboardEvent) {
+    if (!this.focusedItem) {
+      return;
+    }
+
+    const activeElement = document.activeElement as HTMLElement | null;
+    const isTypingTarget =
+      activeElement?.tagName === 'INPUT' ||
+      activeElement?.tagName === 'TEXTAREA' ||
+      activeElement?.isContentEditable;
+
+    if (isTypingTarget) {
+      return;
+    }
+
+    if (event.key === 'Delete' || event.key === 'Backspace') {
+      event.preventDefault();
+      this.deleteItem(event, this.focusedItem);
+    }
+  }
+
   onWheelZoom(event: WheelEvent) {
+    const target = event.target as HTMLElement;
+    if (this.focusedItem && target.closest('.canvas-item.is-focused')) {
+      return;
+    }
+
     event.preventDefault();
     const factor = event.deltaY < 0 ? 1 + ZOOM_STEP : 1 - ZOOM_STEP;
     this.zoomAtPoint(this.zoom * factor, event.clientX, event.clientY);
@@ -288,6 +328,8 @@ export class WorkspaceComponent {
           textColor: event.color.textColor,
           rotation: 0,
           icon: '',
+          width: STICKY_NOTE_SIZE,
+          height: STICKY_NOTE_SIZE,
         };
       }
       case EnumWorkspaceItemType.TEXT:
@@ -312,6 +354,8 @@ export class WorkspaceComponent {
           zIndex: 0,
           title: '',
           url: '',
+          width: DEFAULT_LINK_WIDTH,
+          height: DEFAULT_LINK_HEIGHT,
         };
       case EnumWorkspaceItemType.CODE_SNIPPET:
         return {

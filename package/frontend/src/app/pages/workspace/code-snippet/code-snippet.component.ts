@@ -14,8 +14,12 @@ import { defaultHighlightStyle, indentOnInput, syntaxHighlighting } from '@codem
 import { Compartment, EditorState, Extension } from '@codemirror/state';
 import { EditorView, keymap, lineNumbers } from '@codemirror/view';
 import { CodeSnippetItem } from '../../../interface/workspace.interface';
-
-export type CodeSnippetResizeCorner = 'nw' | 'ne' | 'sw' | 'se';
+import {
+  computeResizedRect,
+  ResizeCorner,
+  ResizeStart,
+  startResize,
+} from '../shared/item-resize.util';
 
 const MIN_WIDTH = 200;
 const MIN_HEIGHT = 100;
@@ -87,8 +91,8 @@ export class CodeSnippetComponent implements AfterViewInit, OnDestroy {
   private readonly editableCompartment = new Compartment();
 
   private isResizing = false;
-  private activeCorner: CodeSnippetResizeCorner | null = null;
-  private resizeStart = { x: 0, y: 0, width: 0, height: 0, itemX: 0, itemY: 0 };
+  private activeCorner: ResizeCorner | null = null;
+  private resizeStart: ResizeStart = { x: 0, y: 0, width: 0, height: 0, itemX: 0, itemY: 0 };
 
   ngAfterViewInit() {
     this.editorView = new EditorView({
@@ -126,20 +130,13 @@ export class CodeSnippetComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  onResizeMouseDown(event: MouseEvent, corner: CodeSnippetResizeCorner) {
+  onResizeMouseDown(event: MouseEvent, corner: ResizeCorner) {
     event.stopPropagation();
     event.preventDefault();
 
     this.isResizing = true;
     this.activeCorner = corner;
-    this.resizeStart = {
-      x: event.clientX,
-      y: event.clientY,
-      width: this.item.width,
-      height: this.item.height,
-      itemX: this.item.x,
-      itemY: this.item.y,
-    };
+    this.resizeStart = startResize(event, this.item);
   }
 
   @HostListener('document:mousemove', ['$event'])
@@ -148,24 +145,19 @@ export class CodeSnippetComponent implements AfterViewInit, OnDestroy {
       return;
     }
 
-    const deltaX = (event.clientX - this.resizeStart.x) / this.zoom;
-    const deltaY = (event.clientY - this.resizeStart.y) / this.zoom;
+    const rect = computeResizedRect(
+      event,
+      this.activeCorner,
+      this.resizeStart,
+      this.zoom,
+      MIN_WIDTH,
+      MIN_HEIGHT,
+    );
 
-    const isLeft = this.activeCorner === 'nw' || this.activeCorner === 'sw';
-    const isTop = this.activeCorner === 'nw' || this.activeCorner === 'ne';
-
-    const nextWidth = Math.max(MIN_WIDTH, this.resizeStart.width + (isLeft ? -deltaX : deltaX));
-    const nextHeight = Math.max(MIN_HEIGHT, this.resizeStart.height + (isTop ? -deltaY : deltaY));
-
-    if (isLeft) {
-      this.item.x = this.resizeStart.itemX + (this.resizeStart.width - nextWidth);
-    }
-    if (isTop) {
-      this.item.y = this.resizeStart.itemY + (this.resizeStart.height - nextHeight);
-    }
-
-    this.item.width = nextWidth;
-    this.item.height = nextHeight;
+    this.item.x = rect.x;
+    this.item.y = rect.y;
+    this.item.width = rect.width;
+    this.item.height = rect.height;
   }
 
   @HostListener('document:mouseup')

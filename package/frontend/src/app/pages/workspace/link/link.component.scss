@@ -5,7 +5,7 @@
 }
 
 .link-card {
-  @apply flex items-center gap-sm w-64 p-sm bg-surface-container-high border border-outline-variant rounded-lg shadow-2xl cursor-grab select-none;
+  @apply relative flex items-center gap-sm p-sm bg-surface-container-high border border-outline-variant rounded-lg shadow-2xl cursor-grab select-none;
 
   &.is-editing {
     cursor: default;
@@ -46,4 +46,32 @@
 
 .link-input--url {
   @apply font-code-md text-xs;
+}
+
+.resize-handle {
+  @apply absolute w-2.5 h-2.5 bg-primary border border-surface rounded-full opacity-0 transition-opacity z-10;
+}
+
+.link-card:hover .resize-handle {
+  @apply opacity-100;
+}
+
+.resize-handle--nw {
+  @apply -top-1 -left-1;
+  cursor: nwse-resize;
+}
+
+.resize-handle--ne {
+  @apply -top-1 -right-1;
+  cursor: nesw-resize;
+}
+
+.resize-handle--sw {
+  @apply -bottom-1 -left-1;
+  cursor: nesw-resize;
+}
+
+.resize-handle--se {
+  @apply -bottom-1 -right-1;
+  cursor: nwse-resize;
 }
